@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 const List<Color> colorList = [
-  Color(0xFF000000),
-  Color(0xFF1B1B1B),
-  Color(0xFF333333),
-  Color(0xFF4D4D4D),
-  Color(0xFF666666),
-  Color(0xFF808080),
-  Color(0xFF999999),
-  Color(0xFFB3B3B3),
-  Color(0xFFCCCCCC),
-  Color(0xFFE6E6E6),
-  Color(0xFFFFFFFF),
+  Colors.blueGrey,
+  Colors.indigo,
+  Colors.purple,
+  Colors.teal,
+  Colors.deepOrange,
+  Colors.pink,
+  Colors.cyan,
+  Colors.amber,
+  Colors.lightGreen,
+  Colors.brown,
+  Colors.blue,
 ];
 
 class AppTheme {
@@ -29,8 +29,30 @@ class AppTheme {
     useMaterial3: true,
     colorSchemeSeed:
         colorList[selectedColor],
-    appBarTheme: AppBarTheme(
+    textTheme: const TextTheme(
+      titleLarge: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
+      bodyMedium: TextStyle(
+        fontSize: 16,
+        height: 1.4,
+      ),
+    ),
+    cardTheme: CardThemeData(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.circular(16),
+      ),
+    ),
+    appBarTheme: const AppBarTheme(
       centerTitle: true,
+      elevation: 0,
+      titleTextStyle: TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.w600,
+      ),
     ),
   );
 }

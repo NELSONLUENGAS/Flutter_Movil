@@ -6,47 +6,8 @@ class HomeScreen
     extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Home Screen',
-        ),
-      ),
-      body: const _HomeView(),
-    );
-  }
-}
-
-class _HomeView
-    extends StatelessWidget {
-  const _HomeView();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      physics:
-          const BouncingScrollPhysics(),
-      itemCount: appMenuitems.length,
-      itemBuilder: (context, index) {
-        final menuItem =
-            appMenuitems[index];
-        return _CustomListTile(
-          menuItem: menuItem,
-        );
-      },
-    );
-  }
-}
-
-class _CustomListTile
-    extends StatelessWidget {
-  const _CustomListTile({
-    required this.menuItem,
-  });
-
-  final MenuItem menuItem;
+  static const name = 'home';
+  static const route = '/';
 
   @override
   Widget build(BuildContext context) {
@@ -54,21 +15,160 @@ class _CustomListTile
       context,
     ).colorScheme;
 
-    return ListTile(
-      title: Text(menuItem.title),
-      subtitle: Text(menuItem.subTitle),
-      leading: Icon(
-        menuItem.icon,
-        color: colors.primary,
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              colors.primary.withValues(
+                alpha: 0.05,
+              ),
+              colors.surface,
+            ],
+          ),
+        ),
+        child: CustomScrollView(
+          physics:
+              const BouncingScrollPhysics(),
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 80,
+              floating: false,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                title: const Text(
+                  'Home Screen',
+                ),
+                background: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment
+                          .topLeft,
+                      end: Alignment
+                          .bottomRight,
+                      colors: [
+                        colors.primary,
+                        colors
+                            .secondary,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // Lista de tarjetas
+            SliverPadding(
+              padding:
+                  const EdgeInsets.all(
+                    10,
+                  ),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final menuItem =
+                        appMenuitems[index];
+                    return _CustomCard(
+                      menuItem:
+                          menuItem,
+                    );
+                  },
+                  childCount:
+                      appMenuitems
+                          .length,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-      trailing: Icon(
-        Icons
-            .arrow_forward_ios_outlined,
-        color: colors.primary,
+    );
+  }
+}
+
+class _CustomCard
+    extends StatelessWidget {
+  final MenuItem menuItem;
+
+  const _CustomCard({
+    required this.menuItem,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(
+      context,
+    ).colorScheme;
+
+    return Card(
+      margin: const EdgeInsets.only(
+        bottom: 12,
       ),
-      onTap: () {
-        context.push(menuItem.link);
-      },
+      child: ListTile(
+        contentPadding:
+            const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 12,
+            ),
+        leading: Container(
+          padding: const EdgeInsets.all(
+            8,
+          ),
+          decoration: BoxDecoration(
+            color: colors.primary
+                .withValues(alpha: 0.1),
+            borderRadius:
+                BorderRadius.circular(
+                  12,
+                ),
+          ),
+          child: Icon(
+            menuItem.icon,
+            color: colors.primary,
+            size: 28,
+          ),
+        ),
+        title: Text(
+          menuItem.title,
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge,
+        ),
+        subtitle: Text(
+          menuItem.subTitle,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(
+                color: colors.onSurface
+                    .withValues(
+                      alpha: 0.7,
+                    ),
+              ),
+        ),
+        trailing: Container(
+          padding: const EdgeInsets.all(
+            4,
+          ),
+          decoration: BoxDecoration(
+            color: colors.primary
+                .withValues(alpha: 0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons
+                .arrow_forward_ios_outlined,
+            color: colors.primary,
+            size: 18,
+          ),
+        ),
+        onTap: () {
+          context.pushNamed(
+            menuItem.name,
+          );
+        },
+      ),
     );
   }
 }
