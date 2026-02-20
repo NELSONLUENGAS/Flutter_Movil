@@ -7,6 +7,7 @@ class FullScreenPlayer
   final String videoSource;
   final String caption;
   final bool isAsset;
+  final bool isActive;
   final Map<String, String>?
   httpHeaders;
   final bool autoPlay;
@@ -19,6 +20,7 @@ class FullScreenPlayer
     this.isAsset = false,
     this.httpHeaders,
     this.autoPlay = true,
+    this.isActive = false,
     this.looping = true,
   });
 
@@ -29,6 +31,7 @@ class FullScreenPlayer
     Map<String, String>? httpHeaders,
     bool autoPlay = true,
     bool looping = true,
+    bool isActive = false,
   }) {
     return FullScreenPlayer(
       key: key,
@@ -36,6 +39,7 @@ class FullScreenPlayer
       caption: caption,
       httpHeaders: httpHeaders,
       autoPlay: autoPlay,
+      isActive: isActive,
       looping: looping,
     );
   }
@@ -46,12 +50,14 @@ class FullScreenPlayer
     required String caption,
     bool autoPlay = true,
     bool looping = true,
+    bool isActive = false,
   }) {
     return FullScreenPlayer(
       key: key,
       videoSource: assetPath,
       caption: caption,
       isAsset: true,
+      isActive: isActive,
       autoPlay: autoPlay,
       looping: looping,
     );
@@ -76,6 +82,22 @@ class _FullScreenPlayerState
     _initVideo();
   }
 
+  @override
+  void didUpdateWidget(
+    covariant FullScreenPlayer
+    oldWidget,
+  ) {
+    super.didUpdateWidget(oldWidget);
+
+    if (!_initialized) return;
+
+    if (widget.isActive) {
+      _controller.play();
+    } else {
+      _controller.pause();
+    }
+  }
+
   Future<void> _initVideo() async {
     try {
       _controller = widget.isAsset
@@ -98,7 +120,8 @@ class _FullScreenPlayerState
         widget.looping,
       );
 
-      if (widget.autoPlay) {
+      if (widget.autoPlay &&
+          widget.isActive) {
         await _controller.play();
       }
 
