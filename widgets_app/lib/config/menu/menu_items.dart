@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:widgets_app/presentation/screens/home/home_screen.dart';
+import 'package:widgets_app/presentation/screens/home/home.dart';
 import 'package:widgets_app/presentation/screens/screens.dart';
 
 class MenuItem {
