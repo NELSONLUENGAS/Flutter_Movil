@@ -156,7 +156,45 @@ class _ButtonsView
                 ),
               ),
             ),
+            CustomButton(
+              colors: colors,
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomButton
+    extends StatelessWidget {
+  final ColorScheme colors;
+
+  const CustomButton({
+    super.key,
+    required this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: colors.primary,
+      borderRadius:
+          BorderRadius.circular(8),
+      child: InkWell(
+        onTap: () {},
+        child: Padding(
+          padding:
+              const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 10,
+              ),
+          child: Text(
+            'Custom Button',
+            style: TextStyle(
+              color: colors.onPrimary,
+            ),
+          ),
         ),
       ),
     );
